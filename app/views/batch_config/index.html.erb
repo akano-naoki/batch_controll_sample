@@ -1,0 +1,25 @@
+<% flash.each do |key, value| %>
+  <%= content_tag(:div, value, class: "#{key}") %>
+<% end %>
+
+<%= form_tag('/batch_config', :method => :post) do %>
+<table border=1>
+<tr><th>周期</th><th>処理名</th><th>実行フラグ</th></tr>
+<% @batch_configs.order('process, running_type').each do |batch_config| %>
+
+<tr>
+<td>
+<%= hidden_field_tag "batch_configs[][id]", batch_config.id %>
+<%= batch_config.running_type %>
+</td>
+<td>　
+<%= batch_config.process %>
+</td>
+<td>
+<%= check_box_tag "batch_configs[][active_flg]", '', batch_config.active_flg %>
+</td>
+</tr>
+<% end %>
+</table>
+<%= submit_tag %>
+<% end %>
